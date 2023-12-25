@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>Zeitgeber</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+<style>
+
+	body{
+		display:flex;
+		flex-direction:column;
+		align-items:center;
+	}
+
+	.content{
+		display:flex;
+		flex-direction:column;
+		align-items:center;
+	}
+
+	h2, h1{
+	text-align:center;
+	}
+
+	.ende_sektion{
+		display:flex;
+		justify-content:center;
+	}
+</style>
+  
+<body>
+	<div class="content">
+		<h1>Zeitgeber</h1>
+	
+		<div class="clock_section">
+		
+			<h1 class="urh">
+				<span id="stunden"></span> : <span id="minuten"></span> : <span id="sekunden"></span>
+			</h1>		
+			
+		</div>
+		
+		<div class="ende_sektion">
+			<div class="button_div">
+				<button type="button" id="start_button" onclick="start()">Start</button>
+				</div>
+				<div class="button_div">
+				<button type="button" id="stopp_button" onclick="stopp()">Stopp</button>
+			</div>
+			<div class="button_div">
+				<button type="button" id="pause_button" onclick="pause()">Pause</button>
+			</div>
+		</div>
+		
+	</div> <!-- content -->
+	
+	<script>
+
+	//init Sektion
+	
+	var wiederholung = false;
+	var lautstarke = 50; // 50/100
+	var audio_datei = ""; //ein datei
+	var warnungen;
+	
+	
+	var erwartet = 0; //init zu null
+	var nachricht = "Fertig!"; //die alert nachricht
+	var ziel_offset = 25*60*1000; //25 minuten
+	var zustand = "stopp"; //start, stopp, pause, lauf, ende ...
+	var interval = 1000; //ein sekunde
+	var aktuelle_zeit;
+	var ziel_zeit;
+	
+	var verstrichene_zeit_ms = 0; //die 
+	var verstrichene_zeit_stunden = 0;
+	var verstrichene_zeit_minuten = 0;
+	var verstrichene_zeit_sekunden = 0;
+	var uhr_timeout;
+	
+	
+	
+	//start funktion
+	function start(){
+	
+		aktuelle_zeit = Date.now();
+		ziel_zeit = aktuelle_zeit + ziel_offset;
+		erwartet = aktuelle_zeit + interval;
+		uhr_timeout = setTimeout(uhr, interval);
+		zustand = "lauf";
+		druck_zeit();
+		
+	}
+	
+	//lauf
+	function uhr(){
+	
+	aktuelle_zeit = Date.now();
+	
+	if(aktuelle_zeit >= ziel_zeit){
+	
+		zustand = "ende";
+		ende();
+		
+	}else if (zustand == "pause"){
+	
+		ziel_zeit += interval;
+		
+	}else if (zustand == "lauf"){
+	
+		dt = erwartet - aktuelle_zeit;//zeit delta 
+		
+	}
+	
+	if (zustand != 'ende' && zustand != 'stopp'){
+		erwartet += interval;
+		uhr_timeout = setTimeout(uhr, interval + dt); //wann timeout ist zu schnell, wie 800ms statt 1000, dt ist 200ms (aufholen)
+		druck_zeit();
+		}
+	}
+	
+	//druck_zeit
+	function druck_zeit(){
+		
+		//To do berechnen Sie die stunden, minuten, sekunden , und drucken Sie diese zum bildshirm 
+		
+		verstrichene_zeit_ms = ziel_zeit - erwartet;//5000 - 2000 = 3000
+		
+		//von ms zu stunden/minuten/sekunden einheiten  3.000ms
+		//ms // 1000 = 3s
+		
+		//700.000ms -> minuten 700.000ms // 60*1000
+		
+		//413.132.234ms // 60*60*1000 -> anzahl von stunden
+		
+		//(413.432.234ms - (anzahl_von_stunden*60*60*1000) umwandlung von stunden -> ms) ist die verbleine ms ausserhalb stunden
+		//verbleine ms ausserhalb stunden // 60*1000 -> anzahl von minuten 
+		
+		// (413.132.234ms - (menge von ms in die stunden) - (mengen von ms und die minuten)) // 1000
+	
+		//2:24:33 also 2 stunden, 24 minuten, 33 sekunden
+		
+		verstrichene_zeit_stunden = Math.floor(verstrichene_zeit_ms / (60*60*1000));
+		verstrichene_zeit_minuten = Math.floor( (verstrichene_zeit_ms - verstrichene_zeit_stunden*60*60*1000) / (60*1000));
+		verstrichene_zeit_sekunden = Math.floor( (verstrichene_zeit_ms - verstrichene_zeit_stunden*60*60*1000 - verstrichene_zeit_minuten*60*1000 ) / (1000));
+		
+		//drucken die einheiten auf die bildschirm
+		document.getElementById("stunden").innerHTML = (verstrichene_zeit_stunden.toString()).padStart(2, '0');
+		document.getElementById("minuten").innerHTML =(verstrichene_zeit_minuten.toString()).padStart(2, '0');
+		document.getElementById("sekunden").innerHTML = (verstrichene_zeit_sekunden.toString()).padStart(2, '0');
+		
+	}
+	
+	//pause
+	function pause(){
+		zustand = (zustand == 'pause') ? 'start' : 'pause';
+		document.getElementById("pause_button").innerHTML  = (zustand == 'pause') ? 'Fortsetzen' : 'Pause';
+	}
+	
+	//stopp
+	function stopp(){
+	
+		clearTimeout(uhr_timeout);
+		
+		verstrichene_zeit_ms = 0; //die 
+		verstrichene_zeit_stunden = 0;
+		verstrichene_zeit_minuten = 0;
+		verstrichene_zeit_sekunden = 0;
+
+		document.getElementById("stunden").innerHTML = '00';
+		document.getElementById("minuten").innerHTML = '00';
+		document.getElementById("sekunden").innerHTML = '00';
+		
+		zustand = 'stopp';
+		
+	}
+	
+	//ende
+	function ende(){
+	
+		alert(nachricht);
+		clearTimeout(uhr_timeout);
+		
+	}
+	
+	</script>
+	
+</body>
+
+</html>
+
+

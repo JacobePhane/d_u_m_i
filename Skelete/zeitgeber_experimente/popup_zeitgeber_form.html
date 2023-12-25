@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DuMi</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  </head>
+
+<style>
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.timer_form_modal {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 500px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+h2, h1{
+text-align:center;
+}
+
+</style>
+  
+<body>
+	<div class="content">
+		<h1>Timer</h1>
+		<button type="button" id="modal_form_open_button">Open Form</button>
+	</div>
+		
+		
+	<div class="modal" id="form_modal_background">
+	
+	<form class="timer_form_modal" id="modal_timer_form">
+		<div class="form_title_section">
+		<h2>Timer Settings</h2> <button type="button" id="modal_form_close_button">X</button>
+		</div>
+	
+		
+		<div class="timer_title_section">
+		<label for="timer_title">Title</label>
+		<input type="text" id="timer_title" name="timer_title">
+		</div>
+	
+	
+		<div class="clock_section">
+		
+			<div class="">
+			<label for="input_hours">Stunden</label>
+			<input type="number" id="input_hours" name="input_hours" 
+			min="0" max="99">
+			</div>
+		
+			<div class="">
+			<label for="input_minutes">Minuten</label>
+			<input type="number" id="input_hours" name="input_hours" 
+			min="0" max="60">
+			</div>
+		
+			<div class="">
+			<label for="input_seconds">Sekunde</label>
+			<input type="number" id="input_seconds" name="input_seconds" 
+			min="0" max="60">
+			</div>
+			
+		</div>
+		
+		<div class="alarm_section">
+		
+		<label for="alarm_sound">Alarm Sound</label>
+		
+		<select id="alarm_sound" name="alarm_sound">
+		  <option value="volvo">Volvo</option>
+		  <option value="saab">Saab</option>
+		  <option value="vw">VW</option>
+		  <option value="audi" selected>Audi</option>
+		</select>
+		<button type="button" onclick="alert('Test')">Play Sound</button>
+		
+		
+		<label for="alarm_volume">Alarm Volume</label>
+		<input type="range" id="alarm_volume" name="alarm_volume"
+        min="0" max="100" step="1">
+		
+		<input type="checkbox" id="repeat_sound_checkbox" 
+		name="repeat_sound_checkbox" 
+		value="repeating">
+		<label for="repeat_sound_checkbox">Repeating</label>
+		
+		</div>
+
+		
+		
+		<div class="on_finish_section">
+		
+		<input type="radio" id="overtime_radio" 
+		name="overtime_radio" value="overtime">
+		<label for="overtime_radio">Record Overtime</label><br>
+  
+		<input type="radio" id="stop_radio" 
+		name="stop_radio" value="stop">
+		<label for="stop_radio">Stop Timer</label><br>
+		
+		<input type="radio" id="restart_radio" 
+		name="restart_radio" value="restart">
+		<label for="restart_radio">Restart Timer</label><br>
+		
+		</div>
+		
+		<div class="finalize_section">
+		
+			<div class="test_button">
+			<button type="button" onclick="alert('Test')">Test</button>
+			</div>
+			
+			<div class="finalize">
+			<input type="reset">
+			<input type="submit" value="Submit">
+			</div>
+		
+		</div>
+		
+	</form>
+
+	</div> <!-- end form modal background -->
+	
+	
+	<script>
+	
+	var modal = document.getElementById("form_modal_background");
+	var open_btn = document.getElementById("modal_form_open_button");
+	var close_btn = document.getElementById("modal_form_close_button");
+	
+	open_btn.onclick = function(){
+		modal.style.display = "block";
+		}
+		
+	close_btn.onclick = function(){
+		modal.style.display = "none";
+		}
+	
+	window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+		}
+	}
+	
+	
+	</script>
+</body>
+
+</html>
+
+
